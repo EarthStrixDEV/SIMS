@@ -49,30 +49,30 @@
             $validate_ = true;
 
             if (empty($en_name) || empty($en_surname) || empty($th_name) || empty($th_surname)) {
-                $_SESSION['error'] = 'Some data is required , please enter your data all at once and try again.';
+                $_SESSION['error'] = 'ข้อมูลบางฟิลด์ไม่ควรเป็นค่าว่าง โปรดกรอกข้อมูลให้ครบถ้วนแล้วลองอีกครั้ง';
                 $validate_ = false;
             } else if (!filter_var($email ,FILTER_VALIDATE_EMAIL)) {
-                $_SESSION['error'] = "Email is invalid , please enter email correctly formatted.";
+                $_SESSION['error'] = "รูปแบบอีเมลไม่ถูกต้อง โปรดกรอกอีเมลให้ถูกต้องตามรูปแบบ";
                 $validate_ = false;
             } else if (strlen($major_code) > 3) {
-                $_SESSION['error'] = "Major code can only length 3, please enter a valid major code.";
+                $_SESSION['error'] = "รหัสสาขาควรมีแค่ 3 อักขระเท่านั้น โปรดกรอกรหัสสาขาที่ถูกต้องตามรูปแบบ";
                 $validate_ = false;
             }
 
             if (!$validate_) {
                 echo "<div class='alert alert-danger my-3'>".$_SESSION['error']."</div>";
-                echo "<a class='btn btn-primary' href='insert_std_form.php'>Back To Page</a>";
+                echo "<a class='btn btn-primary' href='insert_std_form.php'>กลับไปที่หน้าเพจ</a>";
                 die();
             }
 
             $sql = "UPDATE std_info SET en_name = '$en_name', en_surname = '$en_surname', th_name = '$th_name', th_surname = '$th_surname', major_code = '$major_code', email = '$email' WHERE id = $id";
             
             if (mysqli_query($conn ,$sql)) {
-                echo "<div class='alert alert-success my-3'>Record ID = $id updated successfully</div>";
-                echo "<a href='insert_std_form.php' class='btn btn-primary'>Back To Page</a>";
+                echo "<div class='alert alert-success my-3'>ข้อมูลที่ ID = $id ถูกแก้ไขเรียบร้อยแล้ว.</div>";
+                echo "<a href='insert_std_form.php' class='btn btn-primary'>กลับไปที่หน้าเพจ</a>";
             } else {
                 echo "<div class='alert alert-danger my-3'>".mysqli_error($conn)."</div>";
-                echo "<a href='insert_std_from.php' class='btn btn-primary'>Back To Page</a>";
+                echo "<a href='insert_std_from.php' class='btn btn-primary'>กลับไปที่หน้าเพจ</a>";
                 die();
             }
 

@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="insert_std_form.php">ระบบจัดการข้อมูลนักเรียน</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,11 +19,18 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
+                        <li class="nav-item mx-2">
                             <a class="btn btn-primary" href="#" id="toggle_form">เพิ่มข้อมูล</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="btn btn-warning" href="insert_std_form.php">รายการทั้งหมด</a>
                         </li>
                     </ul>
                 </div>
+                <form class="d-flex" role="search" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="get">
+                    <input class="form-control me-2" type="search" placeholder="ค้นหารายชื่อ" aria-label="Search" name="search_keyword">
+                    <button class="btn btn-outline-success" type="submit" name="search_submit">ค้นหา</button>
+                </form>
             </div>
         </nav>
         <?php
@@ -51,19 +58,19 @@
             $validate_ = true;
 
             if (empty($id) || empty($en_name) || empty($en_surname) || empty($th_name) || empty($th_surname)) {
-                $_SESSION['error'] = 'Some data is required , please enter your data all at once and try again.';
+                $_SESSION['error'] = 'ข้อมูลบางฟิลด์ไม่ควรเป็นค่าว่าง โปรดกรอกข้อมูลให้ครบถ้วนแล้วลองอีกครั้ง';
                 $validate_ = false;
             } else if (!filter_var($email ,FILTER_VALIDATE_EMAIL)) {
-                $_SESSION['error'] = "Email is invalid , please enter email correctly formatted.";
+                $_SESSION['error'] = "รูปแบบอีเมลไม่ถูกต้อง โปรดกรอกอีเมลให้ถูกต้องตามรูปแบบ";
                 $validate_ = false;
             } else if (strlen($major_code) > 3) {
-                $_SESSION['error'] = "Major code can only length 3, please enter a valid major code.";
+                $_SESSION['error'] = "รหัสสาขาควรมีแค่ 3 อักขระเท่านั้น โปรดกรอกรหัสสาขาที่ถูกต้องตามรูปแบบ";
                 $validate_ = false;
             }
 
             if (!$validate_) {
-                echo "<div class='alert alert-danger'>".$_SESSION['error']."</div>";
-                echo "<a class='btn btn-primary' href='insert_std_form.php'>Back To Page</a>";
+                echo "<div class='alert alert-danger my-3'>".$_SESSION['error']."</div>";
+                echo "<a class='btn btn-primary' href='insert_std_form.php'>กลับไปที่หน้าเพจ</a>";
                 die();
             }
 
@@ -74,17 +81,33 @@
             if ($result) {
                 echo "<div class='alert alert-success'>New recorded successfully.</div>";
             } else {
-                echo "<div class='alert alert-danger'>" . "Error: " . mysqli_error($conn) . "</div>";
-                echo "<a class='btn btn-primary' href='insert_std_form.php'>Back To Page</a>";
+                echo "<div class='alert alert-danger'>" . "เกิดข้อผิดพลาบางอย่าง ข้อความการผิดพลาด: " . mysqli_error($conn) . "</div>";
+                echo "<a class='btn btn-primary' href='insert_std_form.php'>กลับไปที่หน้าเพจ</a>";
                 die();
             }
         }
-
         ?>
 
         <?php
-        $selectData = "select * from std_info";
-        $result = mysqli_query($conn, $selectData);
+        if (isset($_GET['search_submit'])) {
+            $search_keyword = $_GET['search_keyword'];
+
+            if (empty($search_keyword)) {
+                $sql = "SELECT * FROM std_info";
+            } else {
+                if (is_numeric($search_keyword)) {
+                    $search_keyword = (int)$search_keyword;
+                    $sql = "SELECT * FROM std_info WHERE id LIKE '%$search_keyword%'";
+                } else if (is_string($search_keyword)) {
+                    $sql = "SELECT * FROM std_info WHERE en_name LIKE '%$search_keyword%' or en_surname LIKE '%$search_keyword%' or th_name LIKE '%$search_keyword%' or th_surname LIKE '%$search_keyword%' or major_code LIKE '%$search_keyword%' or email LIKE '%$search_keyword%'";
+                }
+            }
+
+            $result = mysqli_query($conn ,$sql);
+        } else {
+            $sql = "SELECT * FROM std_info";
+            $result = mysqli_query($conn ,$sql);
+        }
         ?>
 
         <form action='<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>' method="post" class="row my-3" id="form">
