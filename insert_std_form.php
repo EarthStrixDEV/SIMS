@@ -90,17 +90,17 @@
         <form action='<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>' method="post" class="row my-3" id="form">
             <h1 class="display-6 md-3">แบบฟอร์มเพิ่มข้อมูล</h1>
             <div class="col-sm-5">
-                id: <input class="form-control" type="text" name="id" id=""><br>
-                name: <input class="form-control" type="text" name="en_name" id=""><br>
-                surname: <input class="form-control" type="text" name="en_surname" id=""><br>
+                หมายเลขไอดี: <input class="form-control" type="text" name="id" id=""><br>
+                ชื่อภาษาอังกฤษ: <input class="form-control" type="text" name="en_name" id=""><br>
+                นามสกุลภาษาอังกฤษ: <input class="form-control" type="text" name="en_surname" id=""><br>
             </div>
             <div class="col-sm-5">
-                ชื่อ: <input class="form-control" type="text" name="th_name" id=""><br>
-                นามสกุล: <input class="form-control" type="text" name="th_surname" id=""><br>
-                Major: <input class="form-control" type="text" name="major_code" id=""><br>
+                ชื่อภาษาไทย: <input class="form-control" type="text" name="th_name" id=""><br>
+                นามสกุลภาษาไทย: <input class="form-control" type="text" name="th_surname" id=""><br>
+                รหัสสาขา: <input class="form-control" type="text" name="major_code" id=""><br>
             </div>
             <div class="col-sm-5">
-                Email: <input class="form-control" type="text" name="email" id=""><br>
+                อีเมล: <input class="form-control" type="text" name="email" id=""><br>
                 <input class="btn btn-success" type="submit" value="บันทึก" name="std_student_submit">
                 <input class="btn btn-danger" type="reset" value="ยกเลิก">
             </div>
@@ -111,15 +111,15 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">en_name</th>
-                        <th scope="col">en_surname</th>
-                        <th scope="col">th_name</th>
-                        <th scope="col">th_surname</th>
-                        <th scope="col">major_code</th>
-                        <th scope="col">email</th>
-                        <th scope="col">edit</th>
-                        <th scope="col">delete</th>
+                        <th scope="col">หมายเลขไอดี</th>
+                        <th scope="col">ชื่อภาษาอังกฤษ</th>
+                        <th scope="col">นามสกุลภาษาอังกฤษ</th>
+                        <th scope="col">ชื่อไทย</th>
+                        <th scope="col">นามสกุลภาษาไทย</th>
+                        <th scope="col">รหัสสาขา</th>
+                        <th scope="col">อีเมล</th>
+                        <th scope="col">แก้ไข</th>
+                        <th scope="col">ลบ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -137,20 +137,20 @@
                         </tr>
                         <tr>
                             <td>
-                                <form action='update_std.php' method="post" class="row form_update" style="display: none; width: 100%;">
+                                <form action='<?php echo htmlspecialchars('/php_week9/update_std.php') ?>' method="post" class="row form_update" style="display: none; width: 100%;">
                                     <h2 class="display-6">แก้ไขข้อมูล</h2>
                                     <div class="col-sm-20">
-                                        id: <input class="form-control" type="text" value="<?php echo $row['id'] ?>" name="id" id=""><br>
-                                        name: <input class="form-control" type="text" value="<?php echo $row['en_name'] ?>" name="en_name" id=""><br>
-                                        surname: <input class="form-control" type="text" value="<?php echo $row['en_surname'] ?>" name="en_surname" id=""><br>
+                                        หมายเลขไอดี: <input class="form-control" type="text" value="<?php echo $row['id'] ?>" name="id" id=""><br>
+                                        ชื่อภาษาอังกฤษ: <input class="form-control" type="text" value="<?php echo $row['en_name'] ?>" name="en_name" id=""><br>
+                                        นามสกุลภาษาอังกฤษ: <input class="form-control" type="text" value="<?php echo $row['en_surname'] ?>" name="en_surname" id=""><br>
                                     </div>
                                     <div class="col-sm-20">
-                                        ชื่อ: <input class="form-control" type="text" value="<?php echo $row['th_name'] ?>" name="th_name" id=""><br>
-                                        นามสกุล: <input class="form-control" type="text" value="<?php echo $row['th_surname'] ?>" name="th_surname" id=""><br>
-                                        Major: <input class="form-control" type="text" value="<?php echo $row['major_code'] ?>" name="major_code" id=""><br>
+                                        ชื่อไทย: <input class="form-control" type="text" value="<?php echo $row['th_name'] ?>" name="th_name" id=""><br>
+                                        นามสกุลไทย: <input class="form-control" type="text" value="<?php echo $row['th_surname'] ?>" name="th_surname" id=""><br>
+                                        รหัสสาขา: <input class="form-control" type="text" value="<?php echo $row['major_code'] ?>" name="major_code" id=""><br>
                                     </div>
                                     <div class="col-sm-20">
-                                        Email: <input class="form-control" type="text" value="<?php echo $row['email'] ?>" name="email" id=""><br>
+                                        อีเมล: <input class="form-control" type="text" value="<?php echo $row['email'] ?>" name="email" id=""><br>
                                         <input class="btn btn-success" type="submit" value="ยืนยัน">
                                     </div>
                                 </form>
