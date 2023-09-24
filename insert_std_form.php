@@ -72,6 +72,7 @@
             $email = trim($_POST['email']);
             $validate_ = true;
 
+
             if (empty($id) || empty($en_name) || empty($en_surname) || empty($th_name) || empty($th_surname)) {
                 $_SESSION['error'] = 'ข้อมูลบางฟิลด์ไม่ควรเป็นค่าว่าง โปรดกรอกข้อมูลให้ครบถ้วนแล้วลองอีกครั้ง';
                 $validate_ = false;
@@ -88,11 +89,13 @@
                 echo "<a class='btn btn-primary' href='insert_std_form.php'>ทำรายการใหม่</a>";
             } else {
                 $sql = "INSERT INTO `std_info` (`id`, `en_name`, `en_surname`, `th_name`, `th_surname`, `major_code`, `email`) VALUES ($id, '$en_name', '$en_surname', '$th_name', '$th_surname', '$major_code', '$email')";
+
+                $result = mysqli_query($conn ,$sql);
     
-                if (mysqli_query($conn, $sql)) {
+                if ($result) {
                     echo "<div class='alert alert-success my-3'>เพิ่มข้อมูลเรียบร้อย</div>";
                 } else {
-                    echo "<div class='alert alert-danger my-3'>" . "เกิดข้อผิดพลาบางอย่าง ข้อความการผิดพลาด: " . mysqli_error($conn) . "</div>";
+                    echo "<div class='alert alert-danger'>" . "เกิดข้อผิดพลาบางอย่าง ข้อความการผิดพลาด: " . mysqli_error($conn) . "</div>";
                     echo "<a class='btn btn-primary' href='insert_std_form.php'>กลับไปที่หน้าเพจ</a>";
                     die();
                 }

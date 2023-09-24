@@ -31,7 +31,7 @@ if (!$conn) {
 $id = (int)$_GET['id'];
 $sql = "DELETE FROM std_info WHERE id = $id";
 
-$result = mysqli_query($conn, $sql);
+$result = $conn->query($sql);
 
 if ($result) {
     setcookie('delete_success','ลบข้อมูลที่ ID = '.$id.' เรียบร้อย' ,time() + 5);
