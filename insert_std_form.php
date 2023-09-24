@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>STD Info System Student</title>
+    <title>ระบบจัดการข้อมูลนักเรียน</title>
 </head>
 
 
@@ -35,6 +35,8 @@
         </nav>
         <?php
 
+        session_start();
+
         $servername = "localhost";
         $username = "root";
         $password = "";
@@ -45,6 +47,19 @@
         if (!$conn) {
             echo "<div class='alert alert-danger'>เชื่อมต่อฐานข้อมูลไม่สำเร็จ โปรดลองเชื่อมต่อใหม่อีกครั้ง</div>";
             die();
+        }
+
+        if (!empty($_COOKIE['update_error'])) {
+            echo "<div class='alert alert-danger my-3'>".$_COOKIE['update_error']."</div>";
+        }
+        if (!empty($_COOKIE['update_success'])) {
+            echo "<div class='alert alert-success my-3'>".$_COOKIE['update_success']."</div/>";
+        }
+        if (!empty($_COOKIE['delete_success'])) {
+            echo "<div class='alert alert-success my-3'>".$_COOKIE['delete_success']."</div/>";
+        }
+        if (!empty($_COOKIE['delete_error'])) {
+            echo "<div class='alert alert-danger my-3'>".$_COOKIE['delete_error']."</div/>";
         }
 
         if (isset($_POST['std_student_submit'])) {
@@ -70,21 +85,19 @@
 
             if (!$validate_) {
                 echo "<div class='alert alert-danger my-3'>".$_SESSION['error']."</div>";
-                echo "<a class='btn btn-primary' href='insert_std_form.php'>กลับไปที่หน้าเพจ</a>";
-                die();
-            }
-
-            $sql = "INSERT INTO `std_info` (`id`, `en_name`, `en_surname`, `th_name`, `th_surname`, `major_code`, `email`) VALUES ($id, '$en_name', '$en_surname', '$th_name', '$th_surname', '$major_code', '$email')";
-
-            $result = mysqli_query($conn, $sql);
-
-            if ($result) {
-                echo "<div class='alert alert-success'>New recorded successfully.</div>";
+                echo "<a class='btn btn-primary' href='insert_std_form.php'>ทำรายการใหม่</a>";
             } else {
-                echo "<div class='alert alert-danger'>" . "เกิดข้อผิดพลาบางอย่าง ข้อความการผิดพลาด: " . mysqli_error($conn) . "</div>";
-                echo "<a class='btn btn-primary' href='insert_std_form.php'>กลับไปที่หน้าเพจ</a>";
-                die();
+                $sql = "INSERT INTO `std_info` (`id`, `en_name`, `en_surname`, `th_name`, `th_surname`, `major_code`, `email`) VALUES ($id, '$en_name', '$en_surname', '$th_name', '$th_surname', '$major_code', '$email')";
+    
+                if (mysqli_query($conn, $sql)) {
+                    echo "<div class='alert alert-success my-3'>เพิ่มข้อมูลเรียบร้อย</div>";
+                } else {
+                    echo "<div class='alert alert-danger my-3'>" . "เกิดข้อผิดพลาบางอย่าง ข้อความการผิดพลาด: " . mysqli_error($conn) . "</div>";
+                    echo "<a class='btn btn-primary' href='insert_std_form.php'>กลับไปที่หน้าเพจ</a>";
+                    die();
+                }
             }
+
         }
         ?>
 

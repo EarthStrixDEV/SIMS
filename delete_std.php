@@ -34,11 +34,11 @@ $sql = "DELETE FROM std_info WHERE id = $id";
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
-    echo "<div class='alert alert-danger my-3'>Delete ID = $id record successfully.</div>";
-    echo "<a href='insert_std_form.php' class='btn btn-primary'>Back To Page</a>";
+    setcookie('delete_success','ลบข้อมูลที่ ID = '.$id.' เรียบร้อย' ,time() + 5);
+    header('Location:insert_std_form.php');
 } else {
-    echo "<div class='alert alert-danger my-3'>" . mysqli_error($conn)."</div>";
-    die();
+    setcookie('delete_error','เกิดข้อผิดพลาดในการดำเนินการ โปรดลองอีกครั้ง' ,time() + 5);
+    header('Location:insert_std_form.php');
 }
 
 ?>
